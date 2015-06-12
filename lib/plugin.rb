@@ -4,13 +4,16 @@ require_relative "vbinfo/version"
 require 'vagrant'
 
 module Vbinfo
-  class VBinfo < Vagrant.plugin(2, :command)
+  class VBinfo < Vagrant.plugin("2")
     name "vbinfo command"
-    description "The `vbinfo` command gives you detailed information for configured virtualbox vms"
+    description <<-DESC
+    The `vbinfo` command gives you detailed information for 
+    configured virtualbox vms
+    DESC
 
-    command "vbinfo" do
+    command("vbinfo") do
       require_relative 'command'
-      Vbinfo::Command
+      Command
     end
   end
 end

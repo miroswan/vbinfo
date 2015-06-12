@@ -5,8 +5,7 @@ require 'mixlib/shellout'
 require 'vagrant'
 
 module Vbinfo
-  # Helper functions
-  module Helpers
+  class Command < Vagrant.plugin("2", :command)
     # Return an array of vm IDs for the vagrant project in the
     # current directory
     def ids
@@ -34,13 +33,18 @@ module Vbinfo
       output.run_command
       return output.stdout
     end
-  end
 
-  class Command 
-    include Helpers
     # Print detailed information for each Virtualbox VM associated with 
     # the project in the current directory
     def execute
+      opts = OptionParser.new do |o|
+        o.banner = "Usage: vagrant vbinfo"
+      end
+
+      argv = parse_options(opts)
+
+      return if !argv
+
       ids.each do |id|
         puts "#{get_info(id).to_s}\n\n"
       end
