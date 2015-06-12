@@ -4,7 +4,7 @@ require_relative "vbinfo/version"
 require 'vagrant'
 
 module Vbinfo
-  class VBinfo < Vagrant.plugin("2")
+  class Plugin < Vagrant.plugin("2")
     name "vbinfo command"
     description <<-DESC
     The `vbinfo` command gives you detailed information for 
