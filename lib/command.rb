@@ -1,5 +1,9 @@
 #!/usr/bin/env ruby
 
+require 'find'
+require 'mixlib/shellout'
+require 'vagrant'
+
 module Vbinfo
   # Helper functions
   module Helpers

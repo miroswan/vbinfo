@@ -1,9 +1,7 @@
 #!/usr/bin/env ruby
 
 require_relative "vbinfo/version"
-require 'find'
-require 'mixlib/shellout'
-
+require 'vagrant'
 
 module Vbinfo
   class VBinfo < Vagrant.plugin(2, :command)
