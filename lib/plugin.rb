@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 
-require_relative "vbinfo/version"
 require 'vagrant'
 
 module Vbinfo
@@ -12,7 +11,7 @@ module Vbinfo
     DESC
 
     command("vbinfo") do
-      require_relative 'command'
+      require File.expand_path("../command", __FILE__)
       Command
     end
   end

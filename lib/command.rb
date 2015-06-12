@@ -3,9 +3,15 @@
 require 'find'
 require 'mixlib/shellout'
 require 'vagrant'
+require 'optparse'
 
 module Vbinfo
   class Command < Vagrant.plugin("2", :command)
+
+    def self.synopsis
+      "Outputs information for each Virtualbox VM in a given project"
+    end
+
     # Return an array of vm IDs for the vagrant project in the
     # current directory
     def ids
@@ -41,12 +47,8 @@ module Vbinfo
         o.banner = "Usage: vagrant vbinfo"
       end
 
-      argv = parse_options(opts)
-
-      return if !argv
-
       ids.each do |id|
-        puts "#{get_info(id).to_s}\n\n"
+        @env.ui.info("#{get_info(id).to_s}\n\n")
       end
       exit 0
     end
