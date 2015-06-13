@@ -1,6 +1,6 @@
 # Vbinfo
 
-TODO: Write a gem description
+Vagrant plugin for outputing detailed VirtualBox information
 
 ## Installation
 
