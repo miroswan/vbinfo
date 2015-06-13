@@ -9,12 +9,12 @@ module Vbinfo
   class Command < Vagrant.plugin("2", :command)
 
     def self.synopsis
-      "Outputs information for each Virtualbox VM in a given project"
+      "outputs information for each Virtualbox VM"
     end
 
     # Return an array of vm IDs for the vagrant project in the
     # current directory
-    def ids
+    def vbinfo_vm_ids
       i = []
       Find.find("#{ENV['PWD']}/.vagrant") do |item|
         if File.file?(item) and File.basename(item) == 'id'
@@ -25,8 +25,9 @@ module Vbinfo
       return i
     end
 
+
     # Print detailed info for the given VM ID
-    def get_info(id)
+    def vbinfo_get_info(id)
       # Fail if vboxmanage does not exist in the path
       check = Mixlib::ShellOut.new("which vboxmanage")
       check.run_command
@@ -47,8 +48,8 @@ module Vbinfo
         o.banner = "Usage: vagrant vbinfo"
       end
 
-      ids.each do |id|
-        @env.ui.info("#{get_info(id).to_s}\n\n")
+      vbinfo_vm_ids.each do |id|
+        @env.ui.info("#{vbinfo_get_info(id).to_s}")
       end
       exit 0
     end
