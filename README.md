@@ -364,3 +364,22 @@ vagrant vbinfo
   }
 }
 ```
+
+## Development
+* Fork project
+* Create topic branch in your fork for a given patch/feature
+* vagrant up && vagrant halt # this will give you data to work with
+* Install RVM (if not installed)
+* Create gemset for the patch/feature
+* Activate rvm/gemset
+* Install bundler (gem install --version 1.7.15 bundler) # It has to be before version 1.8 which is a vagrant dependency
+* bundler install 
+* bundler exec vagrant vbinfo 
+
+If this works, you'll see json output for each configured VM in the Vagrantfile. When 
+you're done with your patch/feature, submit a pull request, comparing your topic branch to 
+the vbinfo develop branch. 
+
+## To Do
+* Execute on Windows and Linux to make sure it works
+* Possibly write some tests
