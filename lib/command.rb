@@ -13,17 +13,24 @@ module Vbinfo
       "outputs information for each Virtualbox VM"
     end
 
-    # Return an array of vm IDs for the vagrant project in the
-    # current directory
+    # return an array of hashes, each hash containing the 
+    # name and id. Single VM configurations typically are
+    # named default, while multiple VM configurations
+    # are named individually. 
     def ids
-      i = []
+      a = Array.new
       Find.find("#{ENV['PWD']}/.vagrant") do |item|
         if File.file?(item) and File.basename(item) == 'id'
-          id = File.open(item).read
-          i << id
+          h = Hash.new
+          # Id will be found in the id file
+          h["id"] = File.open(item).read
+          # the name will be in /<name>/virtualbox/id of path
+          regex_obj = Regexp.new('[^\/]*(?=/virtualbox)')
+          h["name"] = item[regex_obj]
+          a << h
         end
       end
-      return i
+      return a
     end
 
 
@@ -42,8 +49,8 @@ module Vbinfo
       return output.stdout
     end
 
-    # Convert output to json
-    def get_json(str)
+    # Get hash
+    def get_hash(str)
       h = Hash.new
       lines = str.split("\n")
       lines.each do |item|
@@ -52,21 +59,25 @@ module Vbinfo
         h[key.to_s] = val.to_s
       end
 
-      return JSON.pretty_generate(h)
+      return h
 
     end
 
     # Print detailed information for each Virtualbox VM associated with 
     # the project in the current directory
     def execute
-      opts = OptionParser.new do |o|
-        o.banner = "Usage: vagrant vbinfo"
-      end
+      # opts = OptionParser.new do |o|
+      #   o.banner = "Usage: vagrant vbinfo"
+      # end
 
+      total_hash = Hash.new
       ids.each do |id|
-        str = get_info(id)
-        puts get_json(str)
+        str = get_info(id['id'])
+        local_hash = get_hash(str)
+        name = id['name']
+        total_hash[name] = local_hash
       end
+      puts JSON.pretty_generate(total_hash)
       exit 0
     end
   end
