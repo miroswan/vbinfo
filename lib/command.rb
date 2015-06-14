@@ -4,6 +4,7 @@ require 'find'
 require 'mixlib/shellout'
 require 'vagrant'
 require 'optparse'
+require 'json'
 
 module Vbinfo
   class Command < Vagrant.plugin("2", :command)
@@ -14,7 +15,7 @@ module Vbinfo
 
     # Return an array of vm IDs for the vagrant project in the
     # current directory
-    def vbinfo_vm_ids
+    def ids
       i = []
       Find.find("#{ENV['PWD']}/.vagrant") do |item|
         if File.file?(item) and File.basename(item) == 'id'
@@ -27,7 +28,7 @@ module Vbinfo
 
 
     # Print detailed info for the given VM ID
-    def vbinfo_get_info(id)
+    def get_info(id)
       # Fail if vboxmanage does not exist in the path
       check = Mixlib::ShellOut.new("which vboxmanage")
       check.run_command
@@ -36,9 +37,23 @@ module Vbinfo
         exit 1
       end
       # Return the output
-      output = Mixlib::ShellOut.new("vboxmanage showvminfo #{id}")
+      output = Mixlib::ShellOut.new("vboxmanage showvminfo --machinereadable #{id}")
       output.run_command
       return output.stdout
+    end
+
+    # Convert output to json
+    def get_json(str)
+      h = Hash.new
+      lines = str.split("\n")
+      lines.each do |item|
+        key, val = item.split("=")
+        val = val.tr('"', '')
+        h[key.to_s] = val.to_s
+      end
+
+      return JSON.pretty_generate(h)
+
     end
 
     # Print detailed information for each Virtualbox VM associated with 
@@ -48,8 +63,9 @@ module Vbinfo
         o.banner = "Usage: vagrant vbinfo"
       end
 
-      vbinfo_vm_ids.each do |id|
-        @env.ui.info("#{vbinfo_get_info(id).to_s}")
+      ids.each do |id|
+        str = get_info(id)
+        puts get_json(str)
       end
       exit 0
     end
