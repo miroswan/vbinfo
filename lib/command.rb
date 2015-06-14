@@ -37,10 +37,8 @@ module Vbinfo
     # Print detailed info for the given VM ID
     def get_info(id)
       # Fail if vboxmanage does not exist in the path
-      check = Mixlib::ShellOut.new("which vboxmanage")
-      check.run_command
-      if check.stdout.empty?
-        assert Vagrant::Errors::VagrantError::CommandUnavailable, file: 'vboxmanage'
+      if not Vagrant::Util::Which.which('vboxmanage')
+        raise Vagrant::Errors::CommandUnavailable, file: 'vboxmanage'
         exit 1
       end
       # Return the output
