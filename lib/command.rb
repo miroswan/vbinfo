@@ -23,44 +23,72 @@ module Vbinfo
         if File.file?(item) and File.basename(item) == 'id'
           h = Hash.new
           # Id will be found in the id file
-          h["id"] = File.open(item).read
+          file = File.open(item)
+          h["id"] = file.read
           # the name will be in /<name>/virtualbox/id of path
           regex_obj = Regexp.new('[^\/]*(?=/virtualbox)')
           h["name"] = item[regex_obj]
           a << h
+          file.close
         end
       end
       return a
     end
 
-
-    # Print detailed info for the given VM ID
-    def get_info(id)
+    # Check for vboxmanage and exit 1 if not available
+    def vboxmanage?
       # Fail if vboxmanage does not exist in the path
       if not Vagrant::Util::Which.which('vboxmanage')
         raise Vagrant::Errors::CommandUnavailable, file: 'vboxmanage'
         exit 1
+      else
+        true
       end
-      # Return the output
-      output = Mixlib::ShellOut.new("vboxmanage showvminfo --machinereadable #{id}")
-      output.run_command
-      return output.stdout
+    end
+
+    # Print detailed info for the given VM ID
+    def show_vm_info(id)
+      if vboxmanage?
+        # Return the output
+        command = Mixlib::ShellOut.new("vboxmanage showvminfo --machinereadable #{id}")
+        command.run_command
+        return command.stdout
+      end 
     end
 
     # Get hash
-    def get_hash(str)
+    def get_vm_hash(str)
       h = Hash.new
       lines = str.split("\n")
-      lines.each do |item|
-        key, val = item.split("=")
+      lines.each do |line|
+        key, val = line.split("=")
         [key, val].each do |item|
           item.tr!('"', '')
         end       
         h[key.to_s] = val.to_s
       end
-
       return h
+    end
 
+    def enumerate_guest_info(id)
+      if vboxmanage?
+        command = Mixlib::ShellOut.new("vboxmanage guestproperty enumerate #{id}")
+        command.run_command
+        return command.stdout
+      end
+    end
+
+    def get_guest_hash(str)
+      h = Hash.new
+      lines = str.split("\n")
+      lines.each do |line|
+        name_match = Regexp.new("(?<=Name: )[^,]*")
+        value_match = Regexp.new("(?<=value: )[^,]*")
+        name = line[name_match]
+        value = line[value_match]
+        h[name] = value
+      end
+      return h
     end
 
     # Print detailed information for each Virtualbox VM associated with 
@@ -68,10 +96,16 @@ module Vbinfo
     def execute
       total_hash = Hash.new
       ids.each do |id|
-        str = get_info(id['id'])
-        local_hash = get_hash(str)
+        mini_hash = Hash.new
         name = id['name']
-        total_hash[name] = local_hash
+        i = id['id']
+        guest_str = enumerate_guest_info(i).to_s
+        guest_hash = get_guest_hash(guest_str)
+        mini_hash['guest_info'] = guest_hash
+        vm_str = show_vm_info(i).to_s
+        vm_hash = get_vm_hash(vm_str)
+        mini_hash['vm_info'] = vm_hash
+        total_hash[name] = mini_hash 
       end
       if total_hash.empty? 
         @env.ui.info("No Virtualbox data was found")
