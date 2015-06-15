@@ -53,7 +53,9 @@ module Vbinfo
       lines = str.split("\n")
       lines.each do |item|
         key, val = item.split("=")
-        val = val.tr('"', '')
+        [key, val].each do |item|
+          item.tr!('"', '')
+        end       
         h[key.to_s] = val.to_s
       end
 
@@ -64,10 +66,6 @@ module Vbinfo
     # Print detailed information for each Virtualbox VM associated with 
     # the project in the current directory
     def execute
-      # opts = OptionParser.new do |o|
-      #   o.banner = "Usage: vagrant vbinfo"
-      # end
-
       total_hash = Hash.new
       ids.each do |id|
         str = get_info(id['id'])
@@ -75,7 +73,11 @@ module Vbinfo
         name = id['name']
         total_hash[name] = local_hash
       end
-      puts JSON.pretty_generate(total_hash)
+      if total_hash.empty? 
+        @env.ui.info("No Virtualbox data was found")
+      else
+        @env.ui.info(JSON.pretty_generate(total_hash))
+      end
       exit 0
     end
   end
