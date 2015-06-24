@@ -1,8 +1,11 @@
+#/usr/bin/env ruby
+
 require 'rspec'
 require 'json'
+require 'fileutils'
 
 # Helper methods for tests and rake activities. 
-module SpecHelper
+module Helper
 
   # For destroying all vms that match vbinfo. 
   def self.destroy_existing_vms

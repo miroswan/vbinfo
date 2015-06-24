@@ -21,7 +21,7 @@ begin
 
   desc "Cleanup VMs"
   task :clean do
-    SpecHelper.destroy_existing_vms
+    Helper.destroy_existing_vms
   end
 
   # Declare test dependencies
@@ -31,5 +31,5 @@ begin
   task :default => :test
 
 ensure
-  SpecHelper.destroy_existing_vms
+  Helper.destroy_existing_vms
 end

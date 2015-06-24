@@ -1,9 +1,11 @@
+#!/usr/bin/env ruby
+
 require_relative 'spec_helper'
 
 RSpec.describe 'vbinfo' do
 
   before(:all) do 
-    SpecHelper.setup
+    Helper.setup
   end
 
   describe 'when configured with one VM' do 
@@ -18,7 +20,7 @@ Vagrant.configure(2) do |config|
 end
     VFILE
 
-    hash = SpecHelper.prep_test(vfile)
+    hash = Helper.prep_test(vfile)
 
     it 'output should be a hash' do
       expect(hash.class).to eq(Hash)
