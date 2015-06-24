@@ -10,4 +10,5 @@ end
 group :plugins do
   gem "vbinfo", path: "."
   gem 'mixlib-shellout'
+  gem 'rspec'
 end
