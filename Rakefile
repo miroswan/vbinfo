@@ -27,8 +27,10 @@ begin
     SpecHelper.destroy_existing_vms
   end
 
+  # Declare test dependencies
   task :test => [:single, :double, :clean]
 
+  # Set default to test
   task :default => :test
 
 ensure
