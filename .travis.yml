@@ -4,6 +4,7 @@ rvm:
 before_install:
   - sudo curl -L https://dl.bintray.com/mitchellh/vagrant/vagrant_1.7.2_x86_64.deb -o /tmp/vagrant_1.7.2_x86_64.deb
   - sudo dpkg -i /tmp/vagrant_1.7.2_x86_64.deb
+  - sudo apt-get update
   - sudo apt-get install -y virtualbox
 install:
   - gem install --version 1.7.15 bundler
