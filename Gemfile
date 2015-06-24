@@ -1,5 +1,4 @@
 source 'https://rubygems.org'
-gemspec, path: Dir.pwd
 
 gem 'rake'
 gem 'mixlib-shellout'
