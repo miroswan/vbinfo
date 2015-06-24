@@ -12,6 +12,7 @@ before_install:
 install:
   - gem uninstall -i /home/travis/.rvm/gems/ruby-2.2.1@global bundler
   - gem install bundler --version 1.7.15
+  - echo $PWD
   - bundler install
 script:
   - rake
