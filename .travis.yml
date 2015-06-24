@@ -10,9 +10,8 @@ before_install:
   - sudo apt-get install -y libvpx1
   - sudo dpkg -i /tmp/virtualbox-4.3_4.3.28-100309~Ubuntu~precise_amd64.deb
 install:
-  - rvm gemset create vbinfo
-  - rvm ruby-2.2.1@vbinfo
-  - gem install --version 1.7.15 bundler
+  - gem uninstall bundler --version 1.8.4
+  - gem install bundler --version 1.7.15
   - bundler install
 script:
   - rake
