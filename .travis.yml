@@ -9,7 +9,6 @@ before_install:
   - sudo apt-get install -y libsdl1.2debian
   - sudo apt-get install -y libvpx1
   - sudo dpkg -i /tmp/virtualbox-4.3_4.3.28-100309~Ubuntu~precise_amd64.deb
-  - sudo curl -sSL https://get.rvm.io | sudo bash -s stable --ruby
 install:
   - rvm gemset create ruby-2.2.1@vbinfo
   - rvm ruby-2.2.1@vbinfo
