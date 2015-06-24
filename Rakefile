@@ -27,7 +27,10 @@ begin
     SpecHelper.destroy_existing_vms
   end
 
-  task :default => [:single, :double]
+  task :test => [:single, :double, :clean]
+
+  task :default => :test
+
 ensure
   SpecHelper.destroy_existing_vms
 end
