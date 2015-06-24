@@ -8,9 +8,7 @@ Gem::Specification.new do |spec|
   spec.version       = Vbinfo::VERSION
   spec.authors       = ["Demitri Swan"]
   spec.email         = ["demitriswan@gmail.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  # spec.homepage      = ""
+  spec.summary       = %q{Print detailed information for virtualbox VMs managed by Vagrant}
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
