@@ -10,5 +10,5 @@ group :development do
 end
 
 group :plugins do
-  gem 'vbinfo', path: Dir.pwd 
+  gem 'vbinfo', path: Dir.pwd
 end
