@@ -1,8 +1,12 @@
 require 'rubygems'
 require 'bundler'
+require 'bundler/setup'
 require_relative 'tests/integration/spec/spec_helper'
-
 require 'rspec/core/rake_task'
+
+# Immediately sync 
+$stdout.sync = true
+$stderr.sync = true
 
 begin 
   desc "Run RSpec tests for a single vm" 
@@ -33,3 +37,10 @@ begin
 ensure
   Helper.destroy_existing_vms
 end
+
+# This gives us exposure to some rasks related 
+# to packaging, installing, and releasing the
+# gem. Run rake -T to see the list of available
+# tasks
+Dir.chdir(File.expand_path("../", __FILE__))
+Bundler::GemHelper.install_tasks
