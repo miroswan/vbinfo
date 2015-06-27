@@ -1,6 +1,6 @@
 # Vbinfo
 
-Vagrant plugin for outputing detailed VirtualBox information
+Vagrant plugin for outputing detailed VirtualBox information for Mac and Linux Hosts
 
 ## Installation
 vagrant plugin install vbinfo
