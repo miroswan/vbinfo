@@ -1,4 +1,6 @@
 # Vbinfo
+[![Gem Version](https://badge.fury.io/rb/vbinfo.svg)](http://badge.fury.io/rb/vbinfo)
+[![Gem Downloads](http://ruby-gem-downloads-badge.herokuapp.com/vbinfo?type=total&color=brightgreen)](https://rubygems.org/gems/vbinfo)
 
 Vagrant plugin for outputing detailed VirtualBox information
 
