@@ -2,6 +2,9 @@
 
 Vagrant plugin for outputing detailed VirtualBox information
 
+## Installation
+vagrant plugin install vbinfo
+
 ## Example 
 
 ```
