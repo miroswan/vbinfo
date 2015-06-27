@@ -1,6 +1,6 @@
 # Vbinfo
 
-Vagrant plugin for outputing detailed VirtualBox information for Mac and Linux Hosts
+Vagrant plugin for outputing detailed VirtualBox information
 
 ## Installation
 vagrant plugin install vbinfo
@@ -325,4 +325,4 @@ you're done with your patch/feature, submit a pull request, comparing your topic
 the vbinfo develop branch. Simply run rake to run the integration tests. 
 
 ## To Do
-* Try on windows
+* Possibly add support for Windows users
