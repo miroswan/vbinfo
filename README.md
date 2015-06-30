@@ -7,11 +7,13 @@ Vagrant plugin for outputing detailed VirtualBox information
 (This plugin currently supports OS X and Linux users) 
 
 ## Installation
-vagrant plugin install vbinfo
+
+`vagrant plugin install vbinfo`
 
 ## Example 
 
 ```
+cd <directory where Vagrantfile lives>
 vagrant vbinfo 
 
 {
